@@ -1238,7 +1238,7 @@ const userPostPage = () => {
     } else {
       userPostParent.innerHTML = `
       <h2 class="post__title">Вы еще не подали объявления, Объявления можно подать нажав сюда</h2>
-      <a class="addPost-link" href="../postAds.html">
+      <a class="addPost-link" href="./postAds.html">
         Нажми на меня
         <img src="./images/headerImg/postMe.gif" alt="">
       </a>
