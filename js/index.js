@@ -473,14 +473,14 @@ function showAdsPage() {
     <li>Привод - ${carDrive}</li>
     <li>Тип кузова - ${carBodytype}</li>
     <li>Цвет - ${carColor}</li>
-    <li>Пробег, км - ${carKm ? carKm.toLocaleString() : null} км</li>
+    <li>Пробег, км - ${carKm ? carKm.toLocaleString() : 0} км</li>
     <li>
       <h3 class="user__coments">Коментарий:</h3>
       <p>${carDescription}</p>
     </li>
   </ul>
   <div class="car-price"><h1>Цена: $ ${
-    carPrice ? carPrice.toLocaleString() : null
+    carPrice ? carPrice.toLocaleString() : 0
   }</h1></div>
   </div>
   </div>
@@ -572,6 +572,7 @@ const searchPage = () => {
           typedValue
         )
       );
+
       createFoundPosts(foundPosts);
       addToFavoritsFunc();
 
@@ -582,7 +583,9 @@ const searchPage = () => {
       if (document.querySelectorAll(".fa-heart")) {
         document.querySelectorAll(".fa-heart").forEach((like) => {
           like.addEventListener("click", (e) => {
-            e.target.classList.toggle("liked");
+            JSON.parse(localStorage.getItem("userLogin"))
+              ? e.target.classList.toggle("liked")
+              : showPopup();
           });
         });
       } else null;
@@ -632,7 +635,7 @@ const searchPage = () => {
                   <i class="fas fa-road"></i>
                 </div>
   
-                <p>${carKm.toLocaleString()} км пробега</p>
+                <p>${null ? 0 : carKm.toLocaleString()} км пробега</p>
               </div>
               <div class="userAdvertisement__item-info">
                 <div class="userAdvertisement__item-icon">
@@ -1022,6 +1025,7 @@ function signUp(e) {
 if (document.querySelector(".login-form")) {
   document.querySelector(".login-form").addEventListener("submit", signIn);
 } else null;
+
 function signIn(e) {
   e.preventDefault();
 
@@ -1076,6 +1080,14 @@ const accountPage = () => {
         e.preventDefault();
         localStorage.removeItem("userLogin");
         localStorage.removeItem("userData");
+        localStorage.removeItem("favorites");
+        localStorage.removeItem("userPost");
+        const newExampleAdvert =
+          JSON.parse(localStorage.getItem("postData")) || [];
+        const deleteFavorites = newExampleAdvert.map(
+          (item) => (item.isFavorite = false)
+        );
+        localStorage.setItem("postData", JSON.stringify(newExampleAdvert));
         location.href = "./index.html";
       });
   } else null;
@@ -1318,10 +1330,6 @@ const reviewsSwiper = new Swiper(".reviews__content", {
 const mainPageSlider = new Swiper(".reviesContent", {
   direction: "horizontal",
   loop: true,
-
-  // pagination: {
-  //   el: '.swiper-pagination',
-  // },
 
   navigation: {
     nextEl: ".swiper-button-next",
