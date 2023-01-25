@@ -850,9 +850,8 @@ const services = () => {
             <h3 class="services__item-title">${title}</h3>
             <p class="services__item-text">${info}</p>
   
-            <p class="moreInfo">
+            <p class="moreServices">
               подробно
-              <i class="fa-solid fa-arrow-right"></i>
             </p>
           </a>
         </article>
